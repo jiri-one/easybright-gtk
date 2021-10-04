@@ -4,8 +4,9 @@ from gi.repository import XApp, Gtk
 from subprocess import Popen, PIPE
 import asyncio
 import websockets
+from time import sleep
 
-#Popen(["./websocket_server.py"])
+#Popen(["python", "websocket_server.py"])
 ask_ddcutil = Popen(
 	['ddcutil', 'get', '10', '--terse'],
 	stdout=PIPE,
@@ -37,6 +38,7 @@ class EasyBright():
 		#self.menu.item3.connect("activate", self.onAboutClicked) # connect menu item About
 		#self.menu.item4.connect("activate", self.onExitClicked) # connect menu item Exit
 		#self.tray.set_secondary_menu(self.menu)
+		self.send_backlight_to_websocket_server()
 	
 	def onScrollEvent(self, status_icon, amount, direction, time):
 			if direction == 0:
@@ -47,8 +49,12 @@ class EasyBright():
 				if int(self.backlight) >= (0 + self.step):
 					self.backlight = str(int(self.backlight) - self.step)
 				
-			print(self.backlight)
+			#print(self.backlight)
 			self.tray.set_label(str(self.backlight))
+	
+	def send_backlight_to_websocket_server(self):
+		while True:
+			sleep(1)
 			asyncio.run(send_backlight(self.backlight))	
 			
 			
