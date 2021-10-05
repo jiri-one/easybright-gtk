@@ -6,6 +6,7 @@ import asyncio
 import websockets
 from time import sleep
 
+
 #Popen(["python", "websocket_server.py"])
 ask_ddcutil = Popen(
 	['ddcutil', 'get', '10', '--terse'],
@@ -38,7 +39,7 @@ class EasyBright():
 		#self.menu.item3.connect("activate", self.onAboutClicked) # connect menu item About
 		#self.menu.item4.connect("activate", self.onExitClicked) # connect menu item Exit
 		#self.tray.set_secondary_menu(self.menu)
-		self.send_backlight_to_websocket_server()
+		#self.send_backlight_to_websocket_server()
 	
 	def onScrollEvent(self, status_icon, amount, direction, time):
 			if direction == 0:
@@ -51,6 +52,7 @@ class EasyBright():
 				
 			#print(self.backlight)
 			self.tray.set_label(str(self.backlight))
+			asyncio.run(send_backlight(self.backlight))	
 	
 	def send_backlight_to_websocket_server(self):
 		while True:
