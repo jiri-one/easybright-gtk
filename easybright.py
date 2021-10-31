@@ -5,9 +5,13 @@ from subprocess import Popen, PIPE
 import asyncio
 import websockets
 from time import sleep
+from PIL import Image, ImageDraw, ImageFont
+
+from pathlib import Path
+cwd = Path(__file__).parent
 
 
-#Popen(["python", "websocket_server.py"])
+#Popen(["python", "async_tests/websocket_server.py"])
 ask_ddcutil = Popen(
 	['ddcutil', 'get', '10', '--terse'],
 	stdout=PIPE,
@@ -27,10 +31,10 @@ class EasyBright():
 		#self.window.show()
 		#self.window.connect("destroy", Gtk.main_quit)
 		self.tray = XApp.StatusIcon()
-		#self.tray.set_icon_name(file_path('tray.png'))
 		self.backlight = backlight
+		self.tray.set_icon_name(str(cwd / "icons" / f'{self.backlight}.png'))
 		self.step = 5
-		self.tray.set_label(self.backlight)
+		#self.tray.set_label(self.backlight)
 		self.tray.set_tooltip_text("EasyBright - The best way to set backlight of your screen")
 		self.tray.connect("scroll-event", self.onScrollEvent)
 		#self.menu = TrayMenu() # tray icon menu from class TrayMenu in file tray_menu.py
@@ -51,18 +55,23 @@ class EasyBright():
 					self.backlight = str(int(self.backlight) - self.step)
 				
 			#print(self.backlight)
-			self.tray.set_label(str(self.backlight))
+			#self.tray.set_label(str(self.backlight))
+			self.create_png_text_icon(self.backlight)
+			self.tray.set_icon_name(str(cwd / "icons" / f'{self.backlight}.png'))
 			asyncio.run(send_backlight(self.backlight))	
 	
 	def send_backlight_to_websocket_server(self):
 		while True:
 			sleep(1)
 			asyncio.run(send_backlight(self.backlight))	
-			
-			
-		#print(status_icon, amount, direction, time, nevim)
 	
-	
+	def create_png_text_icon(self, backlight):
+		font = ImageFont.truetype("/usr/share/fonts/liberation/LiberationSans-Regular.ttf", 90)
+		img = Image.new("RGB", (100, 100), "white")
+		img.putalpha(0)
+		d = ImageDraw.Draw(img)
+		d.text((0,0), backlight, font=font, fill='red')
+		img.save('tray.png')
 		
 if __name__ == '__main__':
 	gui = EasyBright()
