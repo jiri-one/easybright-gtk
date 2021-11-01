@@ -11,7 +11,7 @@ from pathlib import Path
 cwd = Path(__file__).parent
 
 
-#Popen(["python", "async_tests/websocket_server.py"])
+Popen(["python", str(cwd / "async_tests" / "websocket_server.py")])
 ask_ddcutil = Popen(
 	['ddcutil', 'get', '10', '--terse'],
 	stdout=PIPE,
