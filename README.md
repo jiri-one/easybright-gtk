@@ -1,1 +1,1 @@
-# easybright_cinnamon
+# easybright_xapp
