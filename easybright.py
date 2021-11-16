@@ -27,6 +27,7 @@ else:
 # imports from my other files with classes and methods
 from tray_menu import TrayMenu
 from handlers import Handlers
+from settings import Settings
 
 from subprocess import Popen, PIPE
 
@@ -42,7 +43,7 @@ ask_ddcutil = Popen(
 stdout, stderr = ask_ddcutil.communicate()
 backlight = stdout.decode().split()[3]
 
-class EasyBright(Handlers):
+class EasyBright(Handlers, Settings):
 	def __init__(self):
 		#My variables and classes		
 		self.step = 5
