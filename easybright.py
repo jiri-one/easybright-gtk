@@ -5,7 +5,7 @@ from sys import modules
 import gi
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
-if environ.get("DESKTOP_SESSION").lower() in ["gnome", "gnome-xorg", "gnome-wayland"]:
+if environ.get("DESKTOP_SESSION").lower() in ["plasma", "gnome", "gnome-xorg", "gnome-wayland"]:
 	try:
 		gi.require_version('AyatanaAppIndicator3', '0.1')
 		from gi.repository import AyatanaAppIndicator3 as AppIndicator

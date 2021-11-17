@@ -6,15 +6,11 @@ from pathlib import Path
 # set current working directory
 cwd = Path(__file__).parent
 cwd_images = cwd / "images"
-cfg_dir = Path.home() / ".config" / "easydict" # set user config directory
+cfg_dir = Path.home() / ".config" / "easybright" # set user config directory
 cfg_dir.mkdir(exist_ok=True) # create the config directory if not exists
 
-# main db with eng-cze dict (name just db, but table is eng_cze and EasyDict works with that table)
-db = TinyDB(cwd / "data" / "eng-cze.json", storage=CachingMiddleware(ORJSONStorage))
-eng_cze = db.table('eng_cze')
-
-# second db to store and restore program settings (name prefdb, with just _default table)
-prefdb = TinyDB(cfg_dir / "settings.json", storage=ORJSONStorage)
+# db to store and restore program settings (name prefdb, with just _default table)
+prefdb = TinyDB(cfg_dir / "settings.json")
 
 class Settings:
 	def initiate_settings(self):
