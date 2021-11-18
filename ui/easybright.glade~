@@ -176,64 +176,6 @@
       </object>
     </child>
   </object>
-  <object class="GtkPopover" id="popover_language">
-    <property name="can-focus">False</property>
-    <property name="border-width">5</property>
-    <property name="relative-to">button_search</property>
-    <child>
-      <object class="GtkBox" id="box_language">
-        <property name="visible">True</property>
-        <property name="can-focus">False</property>
-        <property name="margin-start">5</property>
-        <property name="margin-end">5</property>
-        <property name="margin-top">5</property>
-        <property name="margin-bottom">5</property>
-        <property name="orientation">vertical</property>
-        <property name="spacing">1</property>
-        <child>
-          <object class="GtkLabel" id="label_language">
-            <property name="visible">True</property>
-            <property name="can-focus">False</property>
-            <property name="label" translatable="yes">Search in:</property>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkModelButton" id="button_eng">
-            <property name="visible">True</property>
-            <property name="can-focus">True</property>
-            <property name="receives-default">True</property>
-            <property name="text" translatable="yes">English</property>
-            <property name="centered">True</property>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">1</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkModelButton" id="button_cze">
-            <property name="visible">True</property>
-            <property name="can-focus">True</property>
-            <property name="receives-default">True</property>
-            <property name="text" translatable="yes">Czech</property>
-            <property name="centered">True</property>
-            <signal name="clicked" handler="onLangClicked" swapped="no"/>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">2</property>
-          </packing>
-        </child>
-      </object>
-    </child>
-  </object>
   <object class="GtkTextBuffer" id="textbuffer_help">
     <property name="text" translatable="yes">Explanation of some shortcuts which are in translations:
 

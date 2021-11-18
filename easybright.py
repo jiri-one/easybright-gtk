@@ -29,26 +29,21 @@ from tray_menu import TrayMenu
 from handlers import Handlers
 from settings import Settings
 
-from subprocess import Popen, PIPE
-
 from pathlib import Path
 cwd = Path(__file__).parent
 
+from subprocess import Popen, PIPE
+
 #Popen(["python", str(cwd / "async_tests" / "websocket_server.py")])
 ##### NEED TO CHECK IF IT IS RUNNING
-ask_ddcutil = Popen(
-	['ddcutil', 'get', '10', '--terse'],
-	stdout=PIPE,
-	stderr=PIPE)
-stdout, stderr = ask_ddcutil.communicate()
-backlight = stdout.decode().split()[3]
+
 
 class EasyBright(Handlers, Settings):
 	def __init__(self):
 		#My variables and classes		
 		self.step = 5
 		self.cwd = cwd
-		self.backlight = backlight	
+		self.backlight = self.get_current_backlight_value()
 		self.icon_path = str(self.cwd / "icons" / f'{self.backlight}.png')
 		self.ws_server = "ws://localhost:8888"
 		
