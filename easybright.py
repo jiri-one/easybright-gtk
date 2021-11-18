@@ -5,7 +5,7 @@ from sys import modules
 import gi
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
-if environ.get("DESKTOP_SESSION").lower() in ["plasma", "gnome", "gnome-xorg", "gnome-wayland"]:
+if environ.get("DESKTOP_SESSION").lower() in []:
 	try:
 		gi.require_version('AyatanaAppIndicator3', '0.1')
 		from gi.repository import AyatanaAppIndicator3 as AppIndicator
@@ -57,7 +57,10 @@ class EasyBright(Handlers, Helpers, Settings):
 		self.dialog_about = gui("dialog_about") # about dialog
 		self.dialog_help = gui("dialog_help") # help dialog
 		self.dialog_settings = gui("dialog_settings") # settings dialog	
-		
+		self.dialog_tray = gui("dialog_tray") # Tray not found dialog	
+		self.bt_close_tray_dialog = gui("bt_close_tray_dialog") # close button on tray dialog
+		self.bt_close_tray_dialog.connect("clicked", self.onBtCloseTrayDialog) # it is not possible to connect in in Glade, so it have to be here (maybe bug in Glade)
+
 		# tray menu settings
 		self.tooltip = "EasyBright - The best way to set backlight of your screen"
 		self.menu = TrayMenu() # tray icon menu from class TrayMenu in file tray_menu.py	
@@ -77,8 +80,10 @@ class EasyBright(Handlers, Helpers, Settings):
 			self.tray.set_tooltip_text(self.tooltip)
 			self.tray.connect("scroll-event", self.onScrollEvent_xapp)
 			self.tray.set_secondary_menu(self.menu)
-		else:
-			print("EasyBright-GTK doesn't find any of tray icon supported handler (AyatanaAppIndicator3 or XApps.StatusIcon )")
+		else: # tray = None
+			self.dialog_tray.run()
+			Gtk.main_quit()
+			print("EasyBright-GTK doesn't find any of tray icon supported handler (AyatanaAppIndicator3 or XApps.StatusIcon)")
 	
 if __name__ == '__main__':
 	gui = EasyBright()

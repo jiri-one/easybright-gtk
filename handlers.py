@@ -18,9 +18,12 @@ class Handlers:
 		self.dialog_help.run()
 		self.dialog_help.hide()
 
-	def onSettingsClicked(self, *args):
+	def onSettingsClicked(self, asdfasdf, asddfasdf, fadfafasdf):
 		self.dialog_settings.run()
 		self.dialog_settings.hide()
+	
+	def onBtCloseTrayDialog(self, *args):
+		self.dialog_tray.hide()
 	
 	# tray icon handlers
 	def onScrollEvent_indicator(self, instance, steps, direction):
