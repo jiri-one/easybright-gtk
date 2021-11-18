@@ -28,24 +28,25 @@ else:
 from tray_menu import TrayMenu
 from handlers import Handlers
 from settings import Settings
+from helpers import Helpers
 
 from pathlib import Path
 cwd = Path(__file__).parent
 
 from subprocess import Popen, PIPE
 
-#Popen(["python", str(cwd / "async_tests" / "websocket_server.py")])
+Popen(["python", str(cwd / "async_tests" / "websocket_server.py")])
 ##### NEED TO CHECK IF IT IS RUNNING
 
 
-class EasyBright(Handlers, Settings):
+class EasyBright(Handlers, Helpers, Settings):
 	def __init__(self):
 		#My variables and classes		
 		self.step = 5
 		self.cwd = cwd
-		self.backlight = self.get_current_backlight_value()
-		self.icon_path = str(self.cwd / "icons" / f'{self.backlight}.png')
 		self.ws_server = "ws://localhost:8888"
+		self.backlight = self.backlight_check()
+		self.icon_path = str(self.cwd / "icons" / f'{self.backlight}.png')		
 		
 		# Build GUI from Glade file
 		self.builder = Gtk.Builder()
