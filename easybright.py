@@ -55,9 +55,10 @@ class EasyBright(Settings, Handlers, Helpers):
 		self.dialog_about = gui("dialog_about") # about dialog
 		self.dialog_help = gui("dialog_help") # help dialog
 		self.dialog_settings = gui("dialog_settings") # settings dialog	
-		self.dialog_tray = gui("dialog_tray") # Tray not found dialog	
-		self.bt_close_tray_dialog = gui("bt_close_tray_dialog") # close button on tray dialog
-		self.bt_close_tray_dialog.connect("clicked", self.onBtCloseTrayDialog) # it is not possible to connect it in Glade, so it have to be here (maybe bug in Glade)
+		self.dialog_error = gui("dialog_error") # Error dialog (for any exceptions)	
+		self.label_error = gui("label_error") # Here we will set label for error_dialog	
+		self.bt_close_error_dialog = gui("bt_close_error") # close button on tray dialog
+		self.bt_close_error_dialog.connect("clicked", self.onBtCloseError) # it is not possible to connect it in Glade, so it have to be here (maybe bug in Glade)
 		
 		# initiate rest of settings
 		self.initiate_settings()
@@ -84,9 +85,7 @@ class EasyBright(Settings, Handlers, Helpers):
 			self.tray.connect("scroll-event", self.onScrollEvent_xapp)
 			self.tray.set_secondary_menu(self.menu)
 		else: # tray = None
-			self.dialog_tray.run()
-			Gtk.main_quit()
-			print("EasyBright-GTK doesn't find any of tray icon supported handler (AyatanaAppIndicator3 or XApps.StatusIcon)")
+			self.showErrorDialog("""EasyBright-GTK doesn't find any of tray icon supported handler (AyatanaAppIndicator3 or XApp.StatusIcon). If you would run this app, you need to install one of mentioned tray implementation.""")
 	
 if __name__ == '__main__':
 	gui = EasyBright()

@@ -6,6 +6,7 @@ from gi.repository import Gtk
 import asyncio
 
 class Handlers:
+	"""This class is for GTK handlers only."""
 	def onExitClicked(self, *args):
 		Gtk.main_quit()
 		
@@ -22,8 +23,8 @@ class Handlers:
 		self.dialog_settings.run()
 		self.dialog_settings.hide()
 	
-	def onBtCloseTrayDialog(self, *args):
-		self.dialog_tray.hide()
+	def onBtCloseError(self, *args):
+		self.dialog_error.hide()
 	
 	# tray icon handlers
 	def onScrollEvent_indicator(self, instance, steps, direction):
@@ -48,3 +49,11 @@ class Handlers:
 				self.backlight = str(int(self.backlight) - self.step)
 		self.tray.set_icon_name(str(self.cwd / "icons" / f'{self.backlight}.png'))
 		asyncio.run(self.send_backlight(self.backlight))
+	
+	def showErrorDialog(self, error_message):
+		self.label_error.set_text(error_message)
+		self.dialog_error.run()
+		self.dialog_error.hide()
+		Gtk.main_quit()
+		print(error_message)
+		
