@@ -5,7 +5,9 @@ from sys import modules
 import gi
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
-if environ.get("DESKTOP_SESSION").lower() in []:
+
+# tray icon imports
+if environ.get("DESKTOP_SESSION").lower() in ["plasma", "gnome", "gnome-xorg", "gnome-wayland"]:
 	try:
 		gi.require_version('AyatanaAppIndicator3', '0.1')
 		from gi.repository import AyatanaAppIndicator3 as AppIndicator
@@ -38,15 +40,11 @@ from subprocess import Popen, PIPE
 Popen(["python", str(cwd / "async_tests" / "websocket_server.py")])
 ##### NEED TO CHECK IF IT IS RUNNING
 
-
-class EasyBright(Handlers, Helpers, Settings):
+# Handlers and Helpers are classes with pure methods and Settings is class with __init__ method too
+class EasyBright(Settings, Handlers, Helpers):
 	def __init__(self):
-		#My variables and classes		
-		self.step = 5
-		self.cwd = cwd
-		self.ws_server = "ws://localhost:8888"
-		self.backlight = self.backlight_check()
-		self.icon_path = str(self.cwd / "icons" / f'{self.backlight}.png')		
+		# basic settings
+		super().__init__() # super from Settings __init__ method
 		
 		# Build GUI from Glade file
 		self.builder = Gtk.Builder()
@@ -59,8 +57,13 @@ class EasyBright(Handlers, Helpers, Settings):
 		self.dialog_settings = gui("dialog_settings") # settings dialog	
 		self.dialog_tray = gui("dialog_tray") # Tray not found dialog	
 		self.bt_close_tray_dialog = gui("bt_close_tray_dialog") # close button on tray dialog
-		self.bt_close_tray_dialog.connect("clicked", self.onBtCloseTrayDialog) # it is not possible to connect in in Glade, so it have to be here (maybe bug in Glade)
-
+		self.bt_close_tray_dialog.connect("clicked", self.onBtCloseTrayDialog) # it is not possible to connect it in Glade, so it have to be here (maybe bug in Glade)
+		
+		# initiate rest of settings
+		self.initiate_settings()
+		self.backlight = self.backlight_check()
+		self.icon_path = str(self.cwd / "icons" / f'{self.backlight}.png')				
+		
 		# tray menu settings
 		self.tooltip = "EasyBright - The best way to set backlight of your screen"
 		self.menu = TrayMenu() # tray icon menu from class TrayMenu in file tray_menu.py	
