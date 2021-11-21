@@ -1,5 +1,5 @@
-from PySide2.QtGui import QWheelEvent, QIcon
-from PySide2.QtWidgets import QApplication, QSystemTrayIcon, QMenu, QAction
+from PySide6.QtGui import QWheelEvent, QIcon
+from PySide6.QtWidgets import QApplication, QSystemTrayIcon, QMenu, QAction
 
 app = QApplication([])
 app.setQuitOnLastWindowClosed(False)

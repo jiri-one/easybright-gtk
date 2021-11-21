@@ -78,7 +78,7 @@
           </packing>
         </child>
         <child>
-          <object class="GtkLabel" id="label_error_dialog">
+          <object class="GtkLabel" id="label_error">
             <property name="width-request">500</property>
             <property name="visible">True</property>
             <property name="can-focus">False</property>

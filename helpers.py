@@ -14,7 +14,7 @@ class Helpers:
 	def backlight_check(self):
 		"""We get the current backlight value, then we check if the value can be divided by step (if not, we round it and set rounded value)"""
 		try:
-			ask_ddcutil = sp_run(['ddcutilsem', 'get', '10', '--terse'], capture_output=True)
+			ask_ddcutil = sp_run(['ddcutil', 'get', '10', '--terse'], capture_output=True)
 			ask_ddcutil.check_returncode()
 		except (CalledProcessError, FileNotFoundError) as e:
 			self.showErrorDialog(f"There is problem with ddcutil output. Is ddcutil correctly installed and configured? \n The error message is: \n {e}")

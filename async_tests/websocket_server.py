@@ -1,6 +1,6 @@
 import asyncio
 import websockets
-from subprocess import PIPE
+from subprocess import PIPE, CalledProcessError
 
 running_process = None
 next_value = None
@@ -13,8 +13,12 @@ async def set_backlight():
         while next_value is not None:
             value = next_value
             next_value = None
-            process_set = await asyncio.create_subprocess_exec('ddcutil', 'set', '10', value, '--sleep-multiplier', str('.03'), stdout=PIPE, stderr=PIPE)
+            process_set = await asyncio.create_subprocess_exec('ddcutilem', 'set', '10', value, '--sleep-multiplier', str('.03'), stdout=PIPE, stderr=PIPE)
             stdout, stderr = await process_set.communicate()
+    except (CalledProcessError, FileNotFoundError) as e:
+        loop = asyncio.get_running_loop()
+        loop.stop()
+        #print("zacatek ecka", e)
     finally:
         running_process = False
 

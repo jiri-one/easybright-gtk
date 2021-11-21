@@ -7,7 +7,7 @@ gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
 
 # tray icon imports
-if environ.get("DESKTOP_SESSION").lower() in ["plasma", "gnome", "gnome-xorg", "gnome-wayland"]:
+if environ.get("DESKTOP_SESSION").lower() in ["gnome", "gnome-xorg", "gnome-wayland"]:
 	try:
 		gi.require_version('AyatanaAppIndicator3', '0.1')
 		from gi.repository import AyatanaAppIndicator3 as AppIndicator
@@ -37,7 +37,7 @@ cwd = Path(__file__).parent
 
 from subprocess import Popen, PIPE
 
-Popen(["python", str(cwd / "async_tests" / "websocket_server.py")])
+#Popen(["python", str(cwd / "async_tests" / "websocket_server.py")])
 ##### NEED TO CHECK IF IT IS RUNNING
 
 # Handlers and Helpers are classes with pure methods and Settings is class with __init__ method too
@@ -85,7 +85,7 @@ class EasyBright(Settings, Handlers, Helpers):
 			self.tray.connect("scroll-event", self.onScrollEvent_xapp)
 			self.tray.set_secondary_menu(self.menu)
 		else: # tray = None
-			self.showErrorDialog("""EasyBright-GTK doesn't find any of tray icon supported handler (AyatanaAppIndicator3 or XApp.StatusIcon). If you would run this app, you need to install one of mentioned tray implementation.""")
+			self.showErrorDialog("""EasyBright-GTK doesn't find any of tray icon supported handler (AyatanaAppIndicator3 or XApp.StatusIcon) or you dont use them on supported desktop environment. If you would run this app, you need to install one of mentioned tray implementation and use them on supported desktop environment (for AyatanaAppIndicator3 is that Gnome and for XApp.StatusIcon is that Cinnamon, Mate and XFCE).""")
 	
 if __name__ == '__main__':
 	gui = EasyBright()
